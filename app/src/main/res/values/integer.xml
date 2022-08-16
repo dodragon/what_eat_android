@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="change_count">20</integer>
+    <integer name="change_speed">250</integer>
+</resources>

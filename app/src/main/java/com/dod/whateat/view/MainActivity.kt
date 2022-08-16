@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.dod.whateat.R
 import com.dod.whateat.data.FoodData
 import com.dod.whateat.databinding.ActivityMainBinding
 import com.dod.whateat.viewmodel.RandomFoodViewModel
@@ -18,19 +19,22 @@ class MainActivity : AppCompatActivity() {
     private val viewModel by lazy { ViewModelProvider(this,
         RandomFoodViewModel.RandomFoodFactory(application))[RandomFoodViewModel::class.java] }
 
-    private lateinit var foodList: MutableList<FoodData>
     private val handler = Handler(Looper.getMainLooper())
 
     private var changeCtn: Int = 0
-    private val lastChangeCnt: Int = 20
+    private val lastChangeCnt by lazy { resources.getInteger(R.integer.change_count) }
+    private var changeSpeed: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         setObserver()
     }
 
-    private fun setView(){
+    private fun setView(foodList: MutableList<FoodData>){
+        changeSpeed = resources.getInteger(R.integer.change_speed).toLong()
+
         val range = (1..foodList.size)
         val runnable = Runnable {
             textChange(foodList[range.random() - 1].name)
@@ -39,10 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.btn.setOnClickListener {
             handler.removeCallbacks(runnable)
-            Log.e("change count", changeCtn.toString())
             if(changeCtn < lastChangeCnt){
-                handler.postDelayed(runnable, 100L)
+                handler.postDelayed(runnable, changeSpeed)
+                changeSpeed /= 2
             }else {
+                changeSpeed = resources.getInteger(R.integer.change_speed).toLong()
                 changeCtn = 0
             }
         }
@@ -60,9 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setObserver(){
         viewModel.foodList.observe(this) {
-            foodList = it
-            setView()
-            Toast.makeText(this, "can start !", Toast.LENGTH_SHORT).show()
+            setView(it)
         }
     }
 }
