@@ -1,5 +1,6 @@
 package com.dod.whateat.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -44,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             }else {
                 changeCtn = 0
             }
+        }
+
+        binding.btnGo.setOnClickListener {
+            val intent = Intent(this, ListActivity::class.java)
+            startActivity(intent)
         }
     }
 

@@ -18,6 +18,10 @@ class CategoryViewModel(private val repository: CategoryRepository): ViewModel()
         }
     }
 
+    /*fun selectList() = viewModelScope.launch {
+        categoryList.value = repository.categoryList()
+    }*/
+
     class CategoryFactory(): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return CategoryViewModel(CategoryRepository.getInstance()!!) as T

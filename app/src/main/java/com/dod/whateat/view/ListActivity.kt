@@ -2,6 +2,7 @@ package com.dod.whateat.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dod.whateat.R
@@ -18,7 +19,10 @@ class ListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        setContentView(binding.root)
+
+        setView()
+        setObserver()
     }
 
     private fun setView(){
@@ -27,6 +31,12 @@ class ListActivity : AppCompatActivity() {
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = categoryAdapter
+        }
+    }
+
+    private fun setObserver(){
+        viewModel.categoryList.observe(this) {
+            categoryAdapter.refreshList(viewModel.categoryList.value!!)
         }
     }
 }
