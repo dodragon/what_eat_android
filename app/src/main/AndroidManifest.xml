@@ -16,8 +16,10 @@
         android:theme="@style/Theme.WhatEat"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity android:name=".view.FoodListActivity"
+            android:exported="false"/>
         <activity
-            android:name=".view.ListActivity"
+            android:name=".view.CategoryListActivity"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"

@@ -5,19 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.dod.whateat.R
 import com.dod.whateat.data.FoodData
 import com.dod.whateat.databinding.ActivityMainBinding
-import com.dod.whateat.viewmodel.RandomFoodViewModel
+import com.dod.whateat.viewmodel.FoodViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by lazy { ViewModelProvider(this,
-        RandomFoodViewModel.RandomFoodFactory(application))[RandomFoodViewModel::class.java] }
+        FoodViewModel.FoodFactory(application))[FoodViewModel::class.java] }
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -30,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setObserver()
+        viewModel.randomSelect()
     }
 
     private fun setView(foodList: MutableList<FoodData>){
@@ -53,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGo.setOnClickListener {
-            val intent = Intent(this, ListActivity::class.java)
+            val intent = Intent(this, CategoryListActivity::class.java)
             startActivity(intent)
         }
     }

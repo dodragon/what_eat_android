@@ -14,6 +14,14 @@ class FoodRepository(application: Application) {
         return list
     }
 
+    suspend fun foodList(categorySeq: Int): MutableList<FoodData> {
+        val list = mutableListOf<FoodData>()
+        for(i in 0..100){
+            list.add(FoodData(i, "$i 번째 food", categorySeq))
+        }
+        return list
+    }
+
     private fun makeFood(seq: Int, name: String): FoodData{
         return FoodData(seq, name, 0);
     }
