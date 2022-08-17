@@ -12,7 +12,7 @@ import com.dod.whateat.viewmodel.FoodViewModel
 class FoodListActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityFoodListBinding.inflate(layoutInflater) }
-    private val viewModel by lazy { ViewModelProvider(this, FoodViewModel.FoodFactory(application))[FoodViewModel::class.java] }
+    private val viewModel by lazy { ViewModelProvider(this, FoodViewModel.FoodFactory())[FoodViewModel::class.java] }
 
     private lateinit var foodAdapter: FoodAdapter
 

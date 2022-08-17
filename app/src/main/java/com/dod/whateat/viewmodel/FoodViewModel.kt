@@ -1,6 +1,5 @@
 package com.dod.whateat.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -21,9 +20,10 @@ class FoodViewModel(private val repository: FoodRepository): ViewModel() {
         foodList.value = repository.foodList(categorySeq)
     }
 
-    class FoodFactory(private val application: Application): ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    class FoodFactory(): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FoodViewModel(FoodRepository.getInstance(application)!!) as T
+            return FoodViewModel(FoodRepository.getInstance()!!) as T
         }
     }
 }

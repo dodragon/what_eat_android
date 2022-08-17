@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by lazy { ViewModelProvider(this,
-        FoodViewModel.FoodFactory(application))[FoodViewModel::class.java] }
+        FoodViewModel.FoodFactory())[FoodViewModel::class.java] }
 
     private val handler = Handler(Looper.getMainLooper())
 

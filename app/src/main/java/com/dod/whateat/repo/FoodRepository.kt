@@ -1,10 +1,9 @@
 package com.dod.whateat.repo
 
-import android.app.Application
 import com.dod.whateat.data.FoodData
 
 //서버 연동시 수정 필요
-class FoodRepository(application: Application) {
+class FoodRepository() {
 
     suspend fun randomFoodList(): MutableList<FoodData> {
         val list = mutableListOf<FoodData>()
@@ -29,9 +28,9 @@ class FoodRepository(application: Application) {
     companion object {
         private var instance: FoodRepository? = null
 
-        fun getInstance(application: Application): FoodRepository? {
+        fun getInstance(): FoodRepository? {
             if(instance == null){
-                instance = FoodRepository(application)
+                instance = FoodRepository()
             }
             return instance
         }

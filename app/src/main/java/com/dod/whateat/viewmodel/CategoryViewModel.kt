@@ -22,6 +22,7 @@ class CategoryViewModel(private val repository: CategoryRepository): ViewModel()
         categoryList.value = repository.categoryList()
     }*/
 
+    @Suppress("UNCHECKED_CAST")
     class CategoryFactory(): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return CategoryViewModel(CategoryRepository.getInstance()!!) as T
