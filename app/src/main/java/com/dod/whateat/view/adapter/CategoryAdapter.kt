@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dod.whateat.data.CategoryData
 import com.dod.whateat.databinding.ListItemCategoryBinding
+import com.dod.whateat.util.DiffUtilCallback
 
-//서버 적용 후 Paging3, DiffUtil 고려
+//서버 적용 후 Paging3 고려
 class CategoryAdapter: RecyclerView.Adapter<CategoryAdapter.Holder>() {
 
     private val list: MutableList<CategoryData> = ArrayList()
@@ -25,18 +27,21 @@ class CategoryAdapter: RecyclerView.Adapter<CategoryAdapter.Holder>() {
         }
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount(): Int = list.size
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun refreshList(list: MutableList<CategoryData>){
-        this.list.clear()
-        this.list.addAll(list)
-        for(category in this.list){
-            println(category.toString())
+    fun updateList(items: MutableList<CategoryData>, isRefresh: Boolean){
+        items.let {
+            val diffCallback = DiffUtilCallback(list, items)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+            list.run {
+                if(isRefresh){
+                    clear()
+                }
+                addAll(items)
+                diffResult.dispatchUpdatesTo(this@CategoryAdapter)
+            }
         }
-        notifyDataSetChanged()
     }
 
     interface OnCategoryClickListener {

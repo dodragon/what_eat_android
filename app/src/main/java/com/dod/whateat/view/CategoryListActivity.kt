@@ -46,7 +46,7 @@ class CategoryListActivity : AppCompatActivity() {
 
     private fun setObserver(){
         viewModel.categoryList.observe(this) {
-            categoryAdapter.refreshList(viewModel.categoryList.value!!)
+            categoryAdapter.updateList(viewModel.categoryList.value!!, true)
         }
     }
 }

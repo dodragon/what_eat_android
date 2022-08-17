@@ -21,9 +21,7 @@ class FoodAdapter: RecyclerView.Adapter<FoodAdapter.Holder>() {
         holder.bind(list[position])
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount(): Int = list.size
 
     @SuppressLint("NotifyDataSetChanged")
     fun addList(newList: MutableList<FoodData>){
