@@ -1,5 +1,3 @@
 package com.dod.whateat.data
 
-interface DefaultData {
-    val seq: Int
-}
+abstract class DefaultData (open val seq: Int)

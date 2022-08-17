@@ -1,11 +1,12 @@
 package com.dod.whateat.view.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dod.whateat.data.FoodData
 import com.dod.whateat.databinding.ListItemFoodBinding
+import com.dod.whateat.util.DiffUtilCallback
 import java.util.ArrayList
 
 class FoodAdapter: RecyclerView.Adapter<FoodAdapter.Holder>() {
@@ -23,10 +24,19 @@ class FoodAdapter: RecyclerView.Adapter<FoodAdapter.Holder>() {
 
     override fun getItemCount(): Int = list.size
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun addList(newList: MutableList<FoodData>){
-        list.addAll(newList)
-        notifyDataSetChanged()
+    fun updateList(items: MutableList<FoodData>, isRefresh: Boolean){
+        items.let {
+            val diffCallback = DiffUtilCallback(list, items)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+            list.run {
+                if(isRefresh){
+                    clear()
+                }
+                addAll(items)
+                diffResult.dispatchUpdatesTo(this@FoodAdapter)
+            }
+        }
     }
 
     class Holder(private val binding: ListItemFoodBinding): RecyclerView.ViewHolder(binding.root){

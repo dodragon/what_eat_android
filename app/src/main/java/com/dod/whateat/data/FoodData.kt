@@ -9,4 +9,4 @@ data class FoodData(
     val name: String,
     @SerializedName("category_seq")
     val categorySeq: Int
-): DefaultData
+): DefaultData(seq)

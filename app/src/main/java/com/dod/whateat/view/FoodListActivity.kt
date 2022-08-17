@@ -40,7 +40,7 @@ class FoodListActivity : AppCompatActivity() {
 
     private fun setObserver(){
         viewModel.foodList.observe(this) {
-            foodAdapter.addList(it)
+            foodAdapter.updateList(it, true)
         }
     }
 }
