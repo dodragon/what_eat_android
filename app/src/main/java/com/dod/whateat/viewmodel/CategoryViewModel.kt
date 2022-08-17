@@ -1,31 +1,23 @@
 package com.dod.whateat.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.dod.whateat.data.CategoryData
 import com.dod.whateat.repo.CategoryRepository
-import kotlinx.coroutines.launch
+import com.dod.whateat.service.CategoryService
+import kotlinx.coroutines.flow.Flow
 
 class CategoryViewModel(private val repository: CategoryRepository): ViewModel() {
 
-    val categoryList: MutableLiveData<MutableList<CategoryData>> = MutableLiveData()
-
-    init {
-        viewModelScope.launch {
-            categoryList.value = repository.categoryList()
-        }
+    fun selectList(): Flow<PagingData<CategoryData>> {
+        return repository.categoryList()
     }
 
-    /*fun selectList() = viewModelScope.launch {
-        categoryList.value = repository.categoryList()
-    }*/
-
     @Suppress("UNCHECKED_CAST")
-    class CategoryFactory(): ViewModelProvider.Factory {
+    class CategoryFactory(private val service: CategoryService): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return CategoryViewModel(CategoryRepository.getInstance()!!) as T
+            return CategoryViewModel(CategoryRepository.getInstance(service)!!) as T
         }
     }
 }

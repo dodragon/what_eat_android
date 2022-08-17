@@ -6,16 +6,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dod.whateat.R
 import com.dod.whateat.databinding.ActivityListBinding
+import com.dod.whateat.service.CategoryService
 import com.dod.whateat.view.adapter.CategoryAdapter
 import com.dod.whateat.viewmodel.CategoryViewModel
 
 class CategoryListActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityListBinding.inflate(layoutInflater) }
-    private val viewModel by lazy { ViewModelProvider(this, CategoryViewModel.CategoryFactory())[CategoryViewModel::class.java] }
+    private val viewModel by lazy { ViewModelProvider(this, CategoryViewModel.CategoryFactory(
+        CategoryService()))[CategoryViewModel::class.java] }
 
     private lateinit var categoryAdapter: CategoryAdapter
 
@@ -24,7 +28,7 @@ class CategoryListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setView()
-        setObserver()
+        callList()
     }
 
     private fun setView(){
@@ -39,14 +43,18 @@ class CategoryListActivity : AppCompatActivity() {
         }
 
         binding.recycler.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(this@CategoryListActivity, RecyclerView.VERTICAL, false)
             adapter = categoryAdapter
         }
+
+        binding.lifecycleOwner = this
     }
 
-    private fun setObserver(){
-        viewModel.categoryList.observe(this) {
-            categoryAdapter.updateList(viewModel.categoryList.value!!, true)
+    private fun callList(){
+        lifecycleScope.launchWhenStarted {
+            viewModel.selectList().collect {
+                categoryAdapter.submitData(it)
+            }
         }
     }
 }
