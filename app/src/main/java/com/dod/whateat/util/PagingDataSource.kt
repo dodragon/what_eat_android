@@ -8,8 +8,10 @@ import java.io.IOException
 
 class PagingDataSource(private val items: MutableList<DefaultData>): PagingSource<Int, DefaultData>() {
 
-    private val pageSize = 20
-    private val startPage = 1
+    companion object {
+        private const val PAGE_SIZE = 20
+        private const val START_PAGE = 1
+    }
 
     override fun getRefreshKey(state: PagingState<Int, DefaultData>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -20,9 +22,9 @@ class PagingDataSource(private val items: MutableList<DefaultData>): PagingSourc
 
     //차후 마지막 페이지 관련 조정 필요
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DefaultData> {
-        val position = params.key ?: startPage
+        val position = params.key ?: START_PAGE
         return try{
-            val nextKey = if(items.isEmpty() || params.loadSize < pageSize){
+            val nextKey = if(items.isEmpty() || params.loadSize < PAGE_SIZE){
                 null
             }else {
                 position + 1

@@ -13,4 +13,9 @@
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Progress bar -->
+    <style name="progress_bar_theme" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/black</item>
+    </style>
 </resources>

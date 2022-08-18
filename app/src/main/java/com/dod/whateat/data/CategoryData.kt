@@ -9,4 +9,4 @@ data class CategoryData(
     val name: String,
     @SerializedName("count")
     val count: Int
-): DefaultData
+): DefaultData(seq)

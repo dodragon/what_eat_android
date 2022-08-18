@@ -10,14 +10,11 @@ import com.dod.whateat.util.DiffUtilCallback
 
 class FoodAdapter: PagingDataAdapter<FoodData, FoodAdapter.Holder>(DiffUtilCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val binding = ListItemFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return Holder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        Holder(ListItemFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val item = getItem(position) ?: return
-        holder.bind(item)
+        holder.bind(getItem(position) ?: return)
     }
 
     inner class Holder(private val binding: ListItemFoodBinding): RecyclerView.ViewHolder(binding.root){

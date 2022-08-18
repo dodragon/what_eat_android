@@ -11,10 +11,8 @@ import com.dod.whateat.util.DiffUtilCallback
 
 class CategoryAdapter: PagingDataAdapter<CategoryData, CategoryAdapter.Holder>(DiffUtilCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val binding = ListItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return Holder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        Holder(ListItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = getItem(position) ?: return
