@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dod.whateat.data.FoodData
 import com.dod.whateat.repo.FoodRepository
+import com.dod.whateat.service.FoodService
 import kotlinx.coroutines.launch
 
 class FoodViewModel(private val repository: FoodRepository): ViewModel() {
@@ -16,14 +17,12 @@ class FoodViewModel(private val repository: FoodRepository): ViewModel() {
         foodList.value = repository.randomFoodList()
     }
 
-    fun foodSelect(categorySeq: Int) = viewModelScope.launch {
-        foodList.value = repository.foodList(categorySeq)
-    }
+    fun foodSelect(categorySeq: Int) = repository.foodList(categorySeq)
 
     @Suppress("UNCHECKED_CAST")
-    class FoodFactory(): ViewModelProvider.Factory {
+    class FoodFactory(private val service: FoodService): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FoodViewModel(FoodRepository.getInstance()!!) as T
+            return FoodViewModel(FoodRepository.getInstance(service)!!) as T
         }
     }
 }

@@ -1,18 +1,20 @@
 package com.dod.whateat.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dod.whateat.R
 import com.dod.whateat.databinding.ActivityFoodListBinding
+import com.dod.whateat.service.FoodService
 import com.dod.whateat.view.adapter.FoodAdapter
 import com.dod.whateat.viewmodel.FoodViewModel
 
 class FoodListActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityFoodListBinding.inflate(layoutInflater) }
-    private val viewModel by lazy { ViewModelProvider(this, FoodViewModel.FoodFactory())[FoodViewModel::class.java] }
+    private val viewModel by lazy { ViewModelProvider(this, FoodViewModel.FoodFactory(
+        FoodService()))[FoodViewModel::class.java] }
 
     private lateinit var foodAdapter: FoodAdapter
 
@@ -21,8 +23,7 @@ class FoodListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setView()
-        setObserver()
-        callData(intent.getIntExtra("seq", 0))
+        callList(intent.getIntExtra("seq", 0))
     }
 
     private fun setView(){
@@ -34,13 +35,11 @@ class FoodListActivity : AppCompatActivity() {
         }
     }
 
-    private fun callData(seq: Int){
-        viewModel.foodSelect(seq)
-    }
-
-    private fun setObserver(){
-        viewModel.foodList.observe(this) {
-            foodAdapter.updateList(it, true)
+    private fun callList(seq: Int){
+        lifecycleScope.launchWhenStarted {
+            viewModel.foodSelect(seq).collect {
+                foodAdapter.submitData(it)
+            }
         }
     }
 }

@@ -1,21 +1,22 @@
 package com.dod.whateat.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dod.whateat.R
 import com.dod.whateat.data.FoodData
 import com.dod.whateat.databinding.ActivityMainBinding
+import com.dod.whateat.service.FoodService
 import com.dod.whateat.viewmodel.FoodViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by lazy { ViewModelProvider(this,
-        FoodViewModel.FoodFactory())[FoodViewModel::class.java] }
+        FoodViewModel.FoodFactory(FoodService()))[FoodViewModel::class.java] }
 
     private val handler = Handler(Looper.getMainLooper())
 

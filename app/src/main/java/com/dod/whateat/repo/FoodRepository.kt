@@ -1,36 +1,30 @@
 package com.dod.whateat.repo
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.dod.whateat.data.DefaultData
 import com.dod.whateat.data.FoodData
+import com.dod.whateat.service.FoodService
+import com.dod.whateat.util.PagingDataSource
+import kotlinx.coroutines.flow.Flow
 
-//서버 연동시 수정 필요
-class FoodRepository() {
+@Suppress("UNCHECKED_CAST")
+class FoodRepository(private val service: FoodService){
 
-    suspend fun randomFoodList(): MutableList<FoodData> {
-        val list = mutableListOf<FoodData>()
-        for(i in 0..100){
-            list.add(makeFood(i, "$i 번째 food"))
-        }
-        return list
-    }
+    fun randomFoodList() = service.randomFoodList()
 
-    suspend fun foodList(categorySeq: Int): MutableList<FoodData> {
-        val list = mutableListOf<FoodData>()
-        for(i in 0..100){
-            list.add(FoodData(i, "$i 번째 food", categorySeq))
-        }
-        return list
-    }
-
-    private fun makeFood(seq: Int, name: String): FoodData{
-        return FoodData(seq, name, 0);
-    }
+    fun foodList(categorySeq: Int) = Pager(
+        config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+        pagingSourceFactory = { PagingDataSource(items = service.foodList(categorySeq) as MutableList<DefaultData>) }
+    ).flow as Flow<PagingData<FoodData>>
 
     companion object {
         private var instance: FoodRepository? = null
 
-        fun getInstance(): FoodRepository? {
+        fun getInstance(service: FoodService): FoodRepository? {
             if(instance == null){
-                instance = FoodRepository()
+                instance = FoodRepository(service)
             }
             return instance
         }

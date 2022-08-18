@@ -4,21 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dod.whateat.data.CategoryData
 import com.dod.whateat.databinding.ListItemCategoryBinding
+import com.dod.whateat.util.DiffUtilCallback
 
-class CategoryAdapter: PagingDataAdapter<CategoryData, CategoryAdapter.Holder>(
-    object: DiffUtil.ItemCallback<CategoryData>() {
-        override fun areContentsTheSame(oldItem: CategoryData, newItem: CategoryData): Boolean {
-            return oldItem.seq == newItem.seq
-        }
-        override fun areItemsTheSame(oldItem: CategoryData, newItem: CategoryData): Boolean {
-            return oldItem.seq == newItem.seq && oldItem == newItem
-        }
-    }
-) {
+class CategoryAdapter: PagingDataAdapter<CategoryData, CategoryAdapter.Holder>(DiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ListItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
