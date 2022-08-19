@@ -9,7 +9,7 @@ import java.io.IOException
 class PagingDataSource(private val items: MutableList<DefaultData>): PagingSource<Int, DefaultData>() {
 
     companion object {
-        private const val PAGE_SIZE = 20
+        private const val PAGE_SIZE = 50
         private const val START_PAGE = 1
     }
 
@@ -27,12 +27,12 @@ class PagingDataSource(private val items: MutableList<DefaultData>): PagingSourc
             val nextKey = if(items.isEmpty() || params.loadSize < PAGE_SIZE){
                 null
             }else {
-                position + 1
+                position + (params.loadSize / PAGE_SIZE)
             }
 
             LoadResult.Page(
                 data = items,
-                prevKey = if(position == 1) null else position - 1,
+                prevKey = null,
                 nextKey = nextKey
             )
         }catch (e: IOException){

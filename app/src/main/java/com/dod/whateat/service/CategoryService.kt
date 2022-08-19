@@ -9,6 +9,6 @@ class CategoryService {
             val range = (0..200)
             list.add(CategoryData(i, "$i 번째 카테고리", range.random()))
         }
-        return list;
+        return list
     }
 }
