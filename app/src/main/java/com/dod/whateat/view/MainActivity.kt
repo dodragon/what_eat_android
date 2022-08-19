@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dod.whateat.R
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private val lastChangeCnt by lazy { resources.getInteger(R.integer.change_count) }
     private var changeSpeed: Long = 0
 
+    private var lastSelectedSeq: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -37,7 +40,8 @@ class MainActivity : AppCompatActivity() {
 
         val range = (1..foodList.size)
         val runnable = Runnable {
-            textChange(foodList[range.random() - 1].name)
+            val food = foodList[range.random() - 1]
+            textChange(food.name, food.seq)
             binding.btn.performClick()
         }
 
@@ -45,10 +49,11 @@ class MainActivity : AppCompatActivity() {
             handler.removeCallbacks(runnable)
             if(changeCtn < lastChangeCnt){
                 handler.postDelayed(runnable, changeSpeed)
-                changeSpeed /= 2
+                changeSpeed -= 100
             }else {
                 changeSpeed = resources.getInteger(R.integer.change_speed).toLong()
                 changeCtn = 0
+                Log.e("food seq", lastSelectedSeq.toString())
             }
         }
 
@@ -58,8 +63,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun textChange(text: String){
+    private fun textChange(text: String, seq: Int){
         binding.text.text = text
+        lastSelectedSeq = seq
         changeCtn++
     }
 
