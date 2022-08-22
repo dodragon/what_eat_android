@@ -3,17 +3,17 @@ package com.dod.whateat.util
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dod.whateat.data.DefaultData
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import retrofit2.HttpException
 import java.io.IOException
 
-class PagingDataSource(private val items: MutableList<DefaultData>): PagingSource<Int, DefaultData>() {
+class PagingDataSource<T: Any>(private val item: DefaultData): PagingSource<Int, Any>() {
 
-    companion object {
-        private const val PAGE_SIZE = 50
-        private const val START_PAGE = 1
-    }
+    private val gson = GsonBuilder().create()
 
-    override fun getRefreshKey(state: PagingState<Int, DefaultData>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Any>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
@@ -21,17 +21,13 @@ class PagingDataSource(private val items: MutableList<DefaultData>): PagingSourc
     }
 
     //차후 마지막 페이지 관련 조정 필요
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DefaultData> {
-        val position = params.key ?: START_PAGE
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Any> {
         return try{
-            val nextKey = if(items.isEmpty() || params.loadSize < PAGE_SIZE){
-                null
-            }else {
-                position + (params.loadSize / PAGE_SIZE)
-            }
+            val nextKey = item.nextPage
+            val data = gson.fromJson<MutableList<T>>(item.data, object: TypeToken<MutableList<T>>(){}.type)
 
             LoadResult.Page(
-                data = items,
+                data = data,
                 prevKey = null,
                 nextKey = nextKey
             )

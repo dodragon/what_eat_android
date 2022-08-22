@@ -1,6 +1,8 @@
 package com.dod.whateat.service
 
+import com.dod.whateat.data.DefaultData
 import com.dod.whateat.data.FoodData
+import com.google.gson.Gson
 
 class FoodService {
     fun randomFoodList(): MutableList<FoodData> {
@@ -11,11 +13,12 @@ class FoodService {
         return list
     }
 
-    fun foodList(categorySeq: Int): MutableList<FoodData> {
+    fun foodList(categorySeq: Int): DefaultData {
         val list = mutableListOf<FoodData>()
         for(i in 0..100){
             list.add(FoodData(i, "$i 번째 food", categorySeq))
         }
-        return list
+
+        return DefaultData(1, Gson().toJsonTree(list))
     }
 }

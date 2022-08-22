@@ -1,6 +1,7 @@
 package com.dod.whateat.data
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class FoodData(
     @SerializedName("seq")
@@ -9,4 +10,4 @@ data class FoodData(
     val name: String,
     @SerializedName("category_seq")
     val categorySeq: Int
-): DefaultData(seq)
+): Serializable, SeqData

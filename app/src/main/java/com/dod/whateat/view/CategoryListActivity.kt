@@ -23,6 +23,8 @@ class CategoryListActivity : AppCompatActivity() {
     private val viewModel by lazy { ViewModelProvider(this, CategoryViewModel.CategoryFactory(
         CategoryService()))[CategoryViewModel::class.java] }
 
+    private var page: Int = 1
+
     private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +54,10 @@ class CategoryListActivity : AppCompatActivity() {
 
     private fun callList(){
         lifecycleScope.launchWhenStarted {
-            viewModel.selectList().collect {
+            viewModel.selectList(page).collect {
                 categoryAdapter.submitData(it)
             }
+            page++
         }
 
         lifecycleScope.launch {

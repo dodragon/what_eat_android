@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.Flow
 @Suppress("UNCHECKED_CAST")
 class CategoryRepository(private val service: CategoryService) {
 
-    fun categoryList() = Pager(
+    fun categoryList(page: Int) = Pager(
         config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-        pagingSourceFactory = { PagingDataSource(items = service.categoryList() as MutableList<DefaultData>) }
+        pagingSourceFactory = { PagingDataSource<CategoryData>(item = service.categoryList(page)) }
     ).flow as Flow<PagingData<CategoryData>>
 
     companion object {

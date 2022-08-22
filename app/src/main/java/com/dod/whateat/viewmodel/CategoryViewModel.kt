@@ -7,7 +7,7 @@ import com.dod.whateat.service.CategoryService
 
 class CategoryViewModel(private val repository: CategoryRepository): ViewModel() {
 
-    fun selectList() = repository.categoryList()
+    fun selectList(page: Int) = repository.categoryList(page)
 
     @Suppress("UNCHECKED_CAST")
     class CategoryFactory(private val service: CategoryService): ViewModelProvider.Factory {
