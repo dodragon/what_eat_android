@@ -11,7 +11,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dod.whateat.databinding.ActivityCategoryListBinding
-import com.dod.whateat.service.CategoryService
+import com.dod.whateat.service.CategoryApi
 import com.dod.whateat.view.adapter.CategoryAdapter
 import com.dod.whateat.viewmodel.CategoryViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -21,7 +21,7 @@ class CategoryListActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCategoryListBinding.inflate(layoutInflater) }
     private val viewModel by lazy { ViewModelProvider(this, CategoryViewModel.CategoryFactory(
-        CategoryService()))[CategoryViewModel::class.java] }
+        CategoryApi()))[CategoryViewModel::class.java] }
 
     private var page: Int = 1
 
@@ -56,8 +56,8 @@ class CategoryListActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.selectList(page).collect {
                 categoryAdapter.submitData(it)
+                page++
             }
-            page++
         }
 
         lifecycleScope.launch {

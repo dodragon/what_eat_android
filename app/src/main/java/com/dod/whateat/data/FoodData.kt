@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class FoodData(
     @SerializedName("seq")
-    override val seq: Int,
+    override val seq: Long,
     @SerializedName("name")
     val name: String,
     @SerializedName("category_seq")

@@ -1,5 +1,6 @@
 package com.dod.whateat.util
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dod.whateat.data.DefaultData
@@ -26,8 +27,10 @@ class PagingDataSource<T: Any>(private val item: DefaultData): PagingSource<Int,
             val nextKey = item.nextPage
             val data = gson.fromJson<MutableList<T>>(item.data, object: TypeToken<MutableList<T>>(){}.type)
 
+            Log.e("NEXT PAGE", nextKey.toString())
+
             LoadResult.Page(
-                data = data,
+                data = data.orEmpty(),
                 prevKey = null,
                 nextKey = nextKey
             )
