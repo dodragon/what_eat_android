@@ -16,7 +16,7 @@ class FoodRepository(private val service: FoodService){
 
     fun foodList(categorySeq: Int) = Pager(
         config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-        pagingSourceFactory = { PagingDataSource<FoodData>(item = service.foodList(categorySeq)) }
+        pagingSourceFactory = { PagingDataSource<FoodData>(item = service.foodList(categorySeq), classType = FoodData::class.java) }
     ).flow as Flow<PagingData<FoodData>>
 
     companion object {

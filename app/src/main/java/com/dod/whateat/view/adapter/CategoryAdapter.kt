@@ -23,7 +23,7 @@ class CategoryAdapter: PagingDataAdapter<CategoryData, CategoryAdapter.Holder>(D
     }
 
     interface OnCategoryClickListener {
-        fun onCategoryClick(v: View, categorySeq: Int)
+        fun onCategoryClick(v: View, categorySeq: Long)
     }
 
     private var listener: OnCategoryClickListener? = null

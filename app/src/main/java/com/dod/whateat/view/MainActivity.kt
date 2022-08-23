@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val lastChangeCnt by lazy { resources.getInteger(R.integer.change_count) }
     private var changeSpeed: Long = 0
 
-    private var lastSelectedSeq: Int = 0
+    private var lastSelectedSeq: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun textChange(text: String, seq: Int){
+    private fun textChange(text: String, seq: Long){
         binding.text.text = text
         lastSelectedSeq = seq
         changeCtn++

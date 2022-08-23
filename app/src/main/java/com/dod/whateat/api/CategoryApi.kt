@@ -1,4 +1,4 @@
-package com.dod.whateat.service
+package com.dod.whateat.api
 
 import com.dod.whateat.data.DefaultData
 import retrofit2.Response
@@ -7,10 +7,13 @@ import retrofit2.http.Query
 
 interface CategoryApi {
 
-    @GET("get/all/category")
-    suspend fun selectAllCategory(): Response<DefaultData>
+    @GET("category/get/all/")
+    suspend fun selectAllCategory(
+        @Query("page")page: Int,
+        @Query("size")size: Int = 20
+    ): Response<DefaultData>
 
-    @GET("get/type/category")
+    @GET("category/get/type/")
     suspend fun selectTypeCategory(
         @Query("type")type: Int
     ): Response<DefaultData>

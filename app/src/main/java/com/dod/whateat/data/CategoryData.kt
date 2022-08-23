@@ -6,9 +6,9 @@ import java.io.Serializable
 data class CategoryData(
     @SerializedName("seq")
     override val seq: Long,
-    @SerializedName("categoryName")
+    @SerializedName("name")
     val name: String,
-    @SerializedName("bigType")
+    @SerializedName("type")
     val bigType: Int,
     @SerializedName("haveCount")
     val count: Int
