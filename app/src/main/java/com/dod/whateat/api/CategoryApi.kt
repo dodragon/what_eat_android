@@ -15,6 +15,8 @@ interface CategoryApi {
 
     @GET("category/get/type/")
     suspend fun selectTypeCategory(
+        @Query("page")page: Int,
+        @Query("size")size: Int = 20,
         @Query("type")type: Int
     ): Response<DefaultData>
 }

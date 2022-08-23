@@ -10,4 +10,9 @@ class CategoryService {
         val response = RetrofitInstance.categoryApi.selectAllCategory(page)
         return response.body() ?: DefaultData(-1, Gson().toJsonTree(null))
     }
+
+    suspend fun selectTypeCategory(type: Int, page: Int): DefaultData {
+        val response = RetrofitInstance.categoryApi.selectTypeCategory(page = page, type = type)
+        return response.body() ?: DefaultData(-1, Gson().toJsonTree(null))
+    }
 }

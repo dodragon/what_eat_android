@@ -22,6 +22,15 @@ class CategoryRepository(private val service: CategoryService) {
         }
     }
 
+    suspend fun categoryTypeList(type: Int, page: Int): Flow<PagingData<CategoryData>>{
+        service.selectTypeCategory(type, page).let {
+            return Pager(
+                config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+                pagingSourceFactory = { PagingDataSource(item = it, classType = CategoryData::class.java) }
+            ).flow as Flow<PagingData<CategoryData>>
+        }
+    }
+
     companion object {
         private var instance: CategoryRepository? = null
 
