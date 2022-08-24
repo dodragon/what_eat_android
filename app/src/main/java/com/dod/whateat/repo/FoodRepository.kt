@@ -12,11 +12,13 @@ import kotlinx.coroutines.flow.Flow
 @Suppress("UNCHECKED_CAST")
 class FoodRepository(private val service: FoodService){
 
+    suspend fun foodCount() = service.getFoodCount()
+
     fun randomFoodList() = service.randomFoodList()
 
     fun foodList(categorySeq: Int) = Pager(
         config = PagingConfig(pageSize = 20, enablePlaceholders = false),
-        pagingSourceFactory = { PagingDataSource<FoodData>(item = service.foodList(categorySeq), classType = FoodData::class.java) }
+        pagingSourceFactory = { PagingDataSource(item = service.foodList(categorySeq), classType = FoodData::class.java) }
     ).flow as Flow<PagingData<FoodData>>
 
     companion object {

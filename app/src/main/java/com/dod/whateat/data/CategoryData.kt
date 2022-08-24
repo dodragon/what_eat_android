@@ -9,7 +9,7 @@ data class CategoryData(
     @SerializedName("name")
     val name: String,
     @SerializedName("type")
-    val bigType: Int,
+    val type: Int,
     @SerializedName("haveCount")
     val count: Int
 ): Serializable, SeqData

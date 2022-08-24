@@ -12,6 +12,11 @@ import kotlinx.coroutines.launch
 class FoodViewModel(private val repository: FoodRepository): ViewModel() {
 
     val foodList: MutableLiveData<MutableList<FoodData>> = MutableLiveData()
+    val foodCnt: MutableLiveData<Int> = MutableLiveData()
+
+    suspend fun foodCount() {
+        foodCnt.value = repository.foodCount()
+    }
 
     fun randomSelect() = viewModelScope.launch {
         foodList.value = repository.randomFoodList()
