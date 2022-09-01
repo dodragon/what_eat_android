@@ -11,6 +11,7 @@ import retrofit2.create
 object RetrofitInstance {
 
     private const val BASE_URL = "http://192.168.0.33:8080/"
+    //private const val BASE_URL = "http://3.37.249.154:8080/"
 
     private val retrofit by lazy {
         val interceptor = HttpLoggingInterceptor()
