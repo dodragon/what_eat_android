@@ -11,6 +11,8 @@ import com.dod.whateat.util.DiffUtilCallback
 
 class CategoryAdapter: PagingDataAdapter<CategoryData, CategoryAdapter.Holder>(DiffUtilCallback()) {
 
+    private var listener: OnCategoryClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         Holder(ListItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
@@ -26,7 +28,6 @@ class CategoryAdapter: PagingDataAdapter<CategoryData, CategoryAdapter.Holder>(D
         fun onCategoryClick(v: View, categorySeq: Long)
     }
 
-    private var listener: OnCategoryClickListener? = null
     fun setOnCategoryClickListener(listener: OnCategoryClickListener) { this.listener = listener}
 
     inner class Holder(private val binding: ListItemCategoryBinding): RecyclerView.ViewHolder(binding.root) {

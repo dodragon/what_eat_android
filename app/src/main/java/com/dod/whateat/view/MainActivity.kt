@@ -12,6 +12,7 @@ import com.dod.whateat.data.FoodData
 import com.dod.whateat.databinding.ActivityMainBinding
 import com.dod.whateat.service.FoodService
 import com.dod.whateat.viewmodel.FoodViewModel
+import kotlinx.coroutines.CoroutineScope
 
 class MainActivity : AppCompatActivity() {
 

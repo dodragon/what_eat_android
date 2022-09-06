@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,16 +53,20 @@ class CategoryListActivity : AppCompatActivity() {
     }
 
     private fun callList(){
-        lifecycleScope.launchWhenStarted {
-            viewModel.selectList(page).collect {
-                categoryAdapter.submitData(it)
-                page++
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.selectList(page).collect {
+                    categoryAdapter.submitData(it)
+                    page++
+                }
             }
         }
 
         lifecycleScope.launch {
-            categoryAdapter.loadStateFlow.collectLatest { loadStates ->
-                binding.progress.isVisible = loadStates.refresh is LoadState.Loading
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                categoryAdapter.loadStateFlow.collectLatest { loadStates ->
+                    binding.progress.isVisible = loadStates.refresh is LoadState.Loading
+                }
             }
         }
     }

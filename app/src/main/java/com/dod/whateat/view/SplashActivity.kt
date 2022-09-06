@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dod.whateat.databinding.ActivitySplashBinding
 import com.dod.whateat.service.FoodService
 import com.dod.whateat.viewmodel.FoodViewModel
+import kotlinx.coroutines.coroutineScope
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
